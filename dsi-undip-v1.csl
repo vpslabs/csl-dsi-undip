@@ -10,7 +10,7 @@
       TESIS MSI UNDIP v4 (Unofficial CSL) karya Moch Saiful Umam
       https://github.com/vpslabs/csl-msi-undip
 
-    Penulis asli  : Moch. Saiful Umam <ifulmoch@yahoo.com>
+    Penulis asli  : Moch Saiful Umam <ifulmoch@yahoo.com>
     Versi ini     : DISERTASI DSI UNDIP v1
     Lisensi       : CC BY-SA 3.0
 
@@ -33,6 +33,12 @@
             Contoh: IEEE Trans. Evol. Comput. Vol. 18 (4), 577-601.
     [FIX-7] et-al bibliography: min=8, use-first=6 (standar APA 7th)
     [FIX-8] Macro locators yang tidak terpakai dihapus
+    [FIX-9] Sesuai Ringkasan Aturan In-Text Citation APA Edisi ke-7:
+            - 1 penulis: (Yamsa-ard, 2025) / Yamsa-ard (2025)
+            - 2 penulis: (Yamsa-ard dan Masri, 2025) / Yamsa-ard dan Masri (2025)
+            - 3+ penulis: (Yamsa-ard dkk., 2025) / Yamsa-ard dkk. (2025)
+            Format Naratif: ketik nama penulis di awal kalimat, lalu
+            sisipkan sitasi dengan opsi "Omit Author" → hasil: Nama (Tahun)
     ================================================================
   -->
 
@@ -54,6 +60,7 @@
       Menangani: disambiguasi same-author same-year (a/b/c per alfabet judul),
       inisial nama depan saat nama belakang ambigu, format Vol. miring untuk volume jurnal,
       konjungsi "dan" dan singkatan "dkk." sesuai EYD.
+      Format Naratif: ketik nama penulis, lalu sisipkan sitasi dengan Omit Author.
     </summary>
     <updated>2025-01-01T00:00:00+00:00</updated>
     <rights license="https://opensource.org/licenses/MIT">
@@ -127,6 +134,7 @@
        MACRO: author-short – untuk sitasi in-text
        [FIX-4] Tidak ada suffix koma di dalam <names>
                Koma diatur oleh group delimiter di <citation>
+       [FIX-9] and="text" → 2 penulis: (A dan B, Tahun)
        ================================================================ -->
   <macro name="author-short">
     <names variable="author">
@@ -277,9 +285,10 @@
                  (year-suffix hanya muncul saat ada konflik nyata)
        [FIX-3] <sort> ditambahkan untuk konsistensi multi-sitasi
        [FIX-4] Koma antara author dan tahun via group delimiter=", "
+       [FIX-9] 2 penulis: dan (parenthetical &amp; naratif); 3+ penulis: dkk.
        ================================================================ -->
   <citation
-    et-al-min="4"
+    et-al-min="3"
     et-al-use-first="1"
     disambiguate-add-names="true"
     disambiguate-add-givenname="true"
