@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="id-ID" xmlns="http://purl.org/net/xbiblio/csl">
+
+  <!--
+    ================================================================
+    DISERTASI DSI UNDIP v1 (Unofficial)
+    Program Doktor Sistem Informasi – Universitas Diponegoro
+
+    Dikembangkan dari:
+      TESIS MSI UNDIP v4 (Unofficial CSL) karya Moch Saiful Umam
+      https://github.com/vpslabs/csl-msi-undip
+
+    Penulis asli  : Moch. Saiful Umam <ifulmoch@yahoo.com>
+    Versi ini     : DISERTASI DSI UNDIP v1
+    Lisensi       : CC BY-SA 3.0
+
+    Perbaikan dari MSI v4:
+    [FIX-1] year-suffix ditambahkan di macro year-date DAN bibliography
+            → disambiguasi (a, b, c) kini benar-benar muncul di sitasi
+              dan di daftar pustaka
+    [FIX-2] sort bibliography: author → issued → title
+            → urutan a/b/c ditentukan alfabet judul (standar APA)
+    [FIX-3] sort citation ditambahkan
+            → sitasi multi-referensi dalam satu tanda kurung terurut
+    [FIX-4] suffix="," dipindah ke luar <names> di author-short
+            → tidak ada lagi koma ganda "(Ma dkk.,, 2025)"
+    [FIX-5] givenname-disambiguation-rule="primary-name" ditambahkan
+            → inisial nama depan muncul hanya saat nama belakang ambigu
+              Kaidah 2: (J. Ma dkk., 2025) vs (S. Ma dkk., 2025)
+    [FIX-6] Format volume jurnal: "Vol. X (N), halaman"
+            - "Vol." dan angka volume dicetak miring
+            - Nomor issue dalam kurung, tidak miring
+            Contoh: IEEE Trans. Evol. Comput. Vol. 18 (4), 577-601.
+    [FIX-7] et-al bibliography: min=8, use-first=6 (standar APA 7th)
+    [FIX-8] Macro locators yang tidak terpakai dihapus
+    ================================================================
+  -->
+
+  <info>
+    <title>DISERTASI DSI UNDIP v1 (Unofficial)</title>
+    <title-short>Disertasi DSI UNDIP v1</title-short>
+    <id>https://github.com/vpslabs/csl-dsi-undip</id>
+    <link href="https://raw.githubusercontent.com/vpslabs/csl-dsi-undip/main/dsi-undip-v1.csl" rel="self"/>
+    <author>
+      <n>Moch Saiful Umam</n>
+      <email>ifulmoch@yahoo.com</email>
+      <uri>https://www.vpslabs.net</uri>
+    </author>
+    <category citation-format="author-date"/>
+    <category field="science"/>
+    <category field="information system"/>
+    <summary>
+      APA 7th dimodifikasi untuk Bahasa Indonesia. Dikembangkan dari TESIS MSI UNDIP v4.
+      Menangani: disambiguasi same-author same-year (a/b/c per alfabet judul),
+      inisial nama depan saat nama belakang ambigu, format Vol. miring untuk volume jurnal,
+      konjungsi "dan" dan singkatan "dkk." sesuai EYD.
+    </summary>
+    <updated>2025-01-01T00:00:00+00:00</updated>
+    <rights license="https://opensource.org/licenses/MIT">
+      This work is licensed under the MIT License
+    </rights>
+  </info>
+
+  <!-- ================================================================
+       LOCALE: Istilah Bahasa Indonesia
+       ================================================================ -->
+  <locale xml:lang="id">
+    <terms>
+      <term name="and">dan</term>
+      <term name="et-al">dkk.</term>
+      <term name="editor" form="short">
+        <single>ed.</single>
+        <multiple>eds.</multiple>
+      </term>
+      <term name="edition" form="short">ed.</term>
+      <term name="volume" form="short">Vol.</term>
+      <term name="page" form="short">
+        <single>hlm.</single>
+        <multiple>hlm.</multiple>
+      </term>
+      <term name="in">dalam</term>
+      <term name="accessed">diakses</term>
+      <term name="retrieved">Diakses dari</term>
+      <term name="no date" form="short">t.t.</term>
+      <term name="anonymous" form="short">Anon.</term>
+    </terms>
+  </locale>
+
+  <!-- ================================================================
+       MACRO: editor
+       ================================================================ -->
+  <macro name="editor">
+    <names variable="editor" delimiter=", ">
+      <name and="text" initialize-with=". " delimiter-precedes-last="never"/>
+      <label form="short" text-case="lowercase" prefix=" (" suffix=")"/>
+    </names>
+  </macro>
+
+  <!-- ================================================================
+       MACRO: anon
+       ================================================================ -->
+  <macro name="anon">
+    <text term="anonymous" form="short" text-case="capitalize-first" strip-periods="true"/>
+  </macro>
+
+  <!-- ================================================================
+       MACRO: author – untuk daftar pustaka
+       ================================================================ -->
+  <macro name="author">
+    <names variable="author">
+      <name and="text"
+            delimiter-precedes-last="never"
+            et-al-min="8"
+            et-al-use-first="6"
+            initialize-with="."
+            name-as-sort-order="all"/>
+      <label form="short" text-case="lowercase" prefix=" (" suffix=")"/>
+      <et-al font-style="normal"/>
+      <substitute>
+        <names variable="editor"/>
+        <text macro="anon"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <!-- ================================================================
+       MACRO: author-short – untuk sitasi in-text
+       [FIX-4] Tidak ada suffix koma di dalam <names>
+               Koma diatur oleh group delimiter di <citation>
+       ================================================================ -->
+  <macro name="author-short">
+    <names variable="author">
+      <name form="short"
+            and="text"
+            delimiter-precedes-last="never"
+            initialize-with=". "/>
+      <et-al font-style="normal"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+        <text macro="anon"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <!-- ================================================================
+       MACRO: access – dikosongkan, DOI/URL tidak ditampilkan
+       (sesuai gaya penulisan daftar pustaka UNDIP)
+       ================================================================ -->
+  <macro name="access"/>
+
+  <!-- ================================================================
+       MACRO: title
+       ================================================================ -->
+  <macro name="title">
+    <choose>
+      <if type="bill book graphic legal_case legislation motion_picture report song webpage" match="any">
+        <text variable="title" text-case="title" font-style="italic" font-variant="normal"/>
+      </if>
+      <else>
+        <text variable="title" text-case="title" font-style="normal"/>
+      </else>
+    </choose>
+  </macro>
+
+  <!-- ================================================================
+       MACRO: publisher
+       ================================================================ -->
+  <macro name="publisher">
+    <group delimiter=", ">
+      <text variable="publisher"/>
+      <text variable="publisher-place"/>
+    </group>
+  </macro>
+
+  <!-- ================================================================
+       MACRO: year-date – untuk SITASI
+       [FIX-1] Tambahkan <text variable="year-suffix"/>
+               agar huruf a/b/c muncul di sitasi in-text
+       ================================================================ -->
+  <macro name="year-date">
+    <choose>
+      <if variable="issued">
+        <date variable="issued">
+          <date-part name="year"/>
+        </date>
+        <text variable="year-suffix"/>
+      </if>
+      <else>
+        <text term="no date" form="short"/>
+        <text variable="year-suffix"/>
+      </else>
+    </choose>
+  </macro>
+
+  <!-- ================================================================
+       MACRO: year-date-bib – untuk DAFTAR PUSTAKA
+       [FIX-1] Huruf suffix juga wajib muncul di daftar pustaka
+               agar entri (2025a) dan (2025b) jelas teridentifikasi
+       ================================================================ -->
+  <macro name="year-date-bib">
+    <choose>
+      <if variable="issued">
+        <date variable="issued">
+          <date-part name="year"/>
+        </date>
+        <text variable="year-suffix"/>
+      </if>
+      <else>
+        <text term="no date" form="short"/>
+        <text variable="year-suffix"/>
+      </else>
+    </choose>
+  </macro>
+
+  <!-- ================================================================
+       MACRO: edition
+       ================================================================ -->
+  <macro name="edition">
+    <choose>
+      <if is-numeric="edition">
+        <group delimiter=" ">
+          <number variable="edition" form="ordinal"/>
+          <text term="edition" form="short"/>
+        </group>
+      </if>
+      <else>
+        <text variable="edition" suffix="."/>
+      </else>
+    </choose>
+  </macro>
+
+  <!-- ================================================================
+       MACRO: pages – untuk bab/prosiding
+       ================================================================ -->
+  <macro name="pages">
+    <group>
+      <label variable="page" form="short" suffix=" "/>
+      <text variable="page"/>
+    </group>
+  </macro>
+
+  <!-- ================================================================
+       MACRO: volume-issue
+       [FIX-6] Format: Vol. X (N)
+               "Vol." dan angka volume = miring (font-style="italic")
+               Issue dalam kurung = tidak miring (normal)
+       Contoh: Vol. 18 (4)
+       ================================================================ -->
+  <macro name="volume-issue">
+    <choose>
+      <if variable="volume">
+        <group>
+          <text term="volume" form="short" font-style="italic" suffix=" "/>
+          <text variable="volume" font-style="italic"/>
+          <choose>
+            <if variable="issue">
+              <text variable="issue" prefix=" (" suffix=")"/>
+            </if>
+          </choose>
+        </group>
+      </if>
+      <else-if variable="issue">
+        <text variable="issue" prefix="(" suffix=")"/>
+      </else-if>
+    </choose>
+  </macro>
+
+  <!-- ================================================================
+       CITATION: Sitasi In-Text
+       Kaidah 1: author+tahun sama, judul beda → suffix a/b/c
+                 (ditentukan oleh urutan alfabet judul di bibliography sort)
+       Kaidah 2: nama belakang sama, orang beda → tambah inisial
+                 dikendalikan oleh disambiguate-add-givenname +
+                 givenname-disambiguation-rule="primary-name"
+       Kaidah 3: author sama, tahun beda → tidak ada suffix
+                 (year-suffix hanya muncul saat ada konflik nyata)
+       [FIX-3] <sort> ditambahkan untuk konsistensi multi-sitasi
+       [FIX-4] Koma antara author dan tahun via group delimiter=", "
+       ================================================================ -->
+  <citation
+    et-al-min="3"
+    et-al-use-first="1"
+    disambiguate-add-names="true"
+    disambiguate-add-givenname="true"
+    givenname-disambiguation-rule="primary-name"
+    disambiguate-add-year-suffix="true">
+
+    <sort>
+      <key macro="author"/>
+      <key variable="issued"/>
+    </sort>
+
+    <layout delimiter="; " prefix="(" suffix=")">
+      <group delimiter=", ">
+        <group delimiter=" ">
+          <text macro="author-short"/>
+          <text macro="year-date"/>
+        </group>
+        <group>
+          <label variable="locator" form="short"/>
+          <text variable="locator"/>
+        </group>
+      </group>
+    </layout>
+  </citation>
+
+  <!-- ================================================================
+       BIBLIOGRAPHY: Daftar Pustaka
+       [FIX-2] Sort: author → issued → title
+               "title" sebagai kunci ketiga memastikan bahwa saat
+               author dan tahun sama, urutan entri ditentukan alfabet
+               judul — ini yang menentukan mana yang dapat suffix 'a'
+               (judul lebih awal secara alfabetis) dan mana 'b'
+       [FIX-1] year-suffix via macro year-date-bib
+       [FIX-7] et-al-min="8" et-al-use-first="6" (APA 7th)
+       ================================================================ -->
+  <bibliography
+    hanging-indent="true"
+    et-al-min="8"
+    et-al-use-first="6"
+    entry-spacing="0"
+    line-spacing="1">
+
+    <sort>
+      <key macro="author"/>
+      <key variable="issued"/>
+      <key variable="title"/>
+    </sort>
+
+    <layout suffix=".">
+
+      <text macro="author" suffix=","/>
+      <text macro="year-date-bib" prefix=" " suffix=","/>
+
+      <choose>
+
+        <!-- ── BUKU ── -->
+        <if type="bill book graphic legal_case legislation motion_picture report song" match="any">
+          <group delimiter=", " prefix=" " suffix=",">
+            <text macro="title"/>
+            <text macro="edition"/>
+            <text macro="editor"/>
+          </group>
+          <text prefix=" " suffix="." macro="publisher"/>
+        </if>
+
+        <!-- ── BAB DALAM BUKU / PROSIDING ── -->
+        <else-if type="chapter paper-conference" match="any">
+          <text macro="title" prefix=" " suffix="."/>
+          <group prefix=" " delimiter=" ">
+            <text term="in" text-case="capitalize-first"/>
+            <text macro="editor"/>
+            <text variable="container-title" font-style="italic" suffix=","/>
+            <text variable="collection-title" suffix="."/>
+            <text variable="event" suffix="."/>
+            <group suffix="." delimiter=", ">
+              <text macro="pages"/>
+              <text macro="publisher" prefix=" "/>
+            </group>
+          </group>
+        </else-if>
+
+        <!-- ── TESIS / DISERTASI ── -->
+        <else-if type="thesis">
+          <group delimiter=", " prefix=" " suffix=".">
+            <text macro="title" font-style="normal"/>
+            <text variable="genre"/>
+            <text macro="publisher"/>
+          </group>
+        </else-if>
+
+        <!-- ── ARTIKEL JURNAL & FALLBACK ──
+             [FIX-6] Format baru volume:
+             NamaJurnal. Vol. X (N), halaman.
+             Contoh:
+             IEEE Transactions on Evolutionary Computation. Vol. 18 (4), 577-601.
+        -->
+        <else>
+          <group suffix=",">
+            <text macro="title" prefix=" "/>
+            <text macro="editor" prefix=" "/>
+          </group>
+          <group prefix=" " suffix=".">
+            <text variable="container-title" font-style="italic"/>
+            <choose>
+              <if variable="volume issue" match="any">
+                <text macro="volume-issue" prefix=". "/>
+                <text variable="page" prefix=", "/>
+              </if>
+              <else>
+                <text variable="page" prefix=", "/>
+              </else>
+            </choose>
+          </group>
+        </else>
+
+      </choose>
+
+      <text prefix=" " macro="access" suffix="."/>
+
+    </layout>
+  </bibliography>
+
+</style>
